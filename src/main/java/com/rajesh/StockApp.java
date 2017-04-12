@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 
 /**
  * Stock trackign app
+ * Adding some comment
  */
 public class StockApp {
 
