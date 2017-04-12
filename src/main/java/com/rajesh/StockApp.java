@@ -14,8 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Stock trackign app
- * Adding some comment
+ * Stock tracker
  */
 public class StockApp {
 
