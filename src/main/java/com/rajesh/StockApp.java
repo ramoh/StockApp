@@ -13,7 +13,9 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
+/**
+ * Stock trackign app
+ */
 public class StockApp {
 
     public static void main(String[] args) throws Exception {
