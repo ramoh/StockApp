@@ -26,30 +26,34 @@ public class StockApp {
 
         final BigDecimal totalHoldPrice = myStocks.stream()
                 .map(stockInfo -> stockInfo.holdPrice.multiply(BigDecimal.valueOf(stockInfo.quantity)))
-                .reduce(BigDecimal.ZERO, (a, b) -> a.add(b));
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        final Observable<StockInfo> feed = StockServer.getFeed(myStocks);
+        List<Observable<StockInfo>> infos = myStocks.stream().map(StockServer::getFeed).collect(Collectors.toList());
+
+        System.out.println(infos.size());
         final Observable<BigDecimal> finalPriceFeed = StockServer.getCurrentTotalPrice(myStocks);
         AppFeed stockAppFeed = new AppFeed("Stock Feed");
         stockAppFeed.update("Initializing the app", true);
 
+
         finalPriceFeed.subscribeOn(Schedulers.newThread())
+                .distinctUntilChanged()
                 .subscribe(
-                        price -> stockAppFeed.updateTitle(String.format("HP : %.2f CP: %.2f", totalHoldPrice, price), price.compareTo(totalHoldPrice) > 0 ? true : false)
+                        price -> stockAppFeed.updateTitle(String.format("HP : %.2f CP: %.2f", totalHoldPrice, price), price.compareTo(totalHoldPrice) > 0)
                         , ex -> stockAppFeed.updateTitle(ex.getMessage(), false));
-        feed.subscribeOn(Schedulers.newThread()).subscribe(s ->
-                        stockAppFeed.update(s.toString() + "\n", s.isProfit())
-                , ex ->
-                        stockAppFeed.update(ex.getMessage() + "\n", false)
-        );
-
-
+        infos.forEach(feed -> {
+            feed.subscribeOn(Schedulers.io()).distinctUntilChanged(s -> s.currentPrice).subscribe(s ->
+                            stockAppFeed.update(s.toString() + "\n", s.isProfit())
+                    , ex ->
+                            stockAppFeed.update(ex.getMessage() + "\n", false)
+            );
+        });
     }
 
 
-    public static List<StockInfo> processInputFile(final String location) {
+    private static List<StockInfo> processInputFile(final String location) {
 
-        Function<String, StockInfo> converter = stockStr -> {
+        Function<String, StockInfo> converter = (String stockStr) -> {
             try {
                 final String tokens[] = stockStr.split(",");
                 final Long quant = Long.valueOf(tokens[2]);

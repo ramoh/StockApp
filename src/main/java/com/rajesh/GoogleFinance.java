@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -18,10 +19,11 @@ import java.util.stream.Collectors;
 public class GoogleFinance {
 
 
-    public static BigDecimal getPrice(final String ticker, String exchange) {
+    public static BigDecimal getPrice(final String ticker, final String exchange) {
 
         try {
-
+             //sleep for one second before fetching
+            TimeUnit.SECONDS.sleep(1);
             final URL url = new URL("http://finance.google.com/finance/info?client=ig&q=" + exchange + "%3A" + ticker);
 
             final BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));

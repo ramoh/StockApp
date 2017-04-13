@@ -3,6 +3,7 @@ package com.rajesh;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.ParseException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Holds the information about stock
@@ -42,7 +43,7 @@ public class StockInfo {
 
     public StockInfo fetch() {
         try {
-            Thread.sleep(2000);
+            TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
