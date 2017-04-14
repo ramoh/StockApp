@@ -20,8 +20,6 @@ public class StockApp {
 
     public static void main(String[] args) throws Exception {
 
-        System.setProperty("http.proxyHost", "www-proxy.idc.oracle.com");
-        System.setProperty("http.proxyPort", "80");
         List<StockInfo> myStocks = processInputFile("D:\\stock.csv");
 
         final BigDecimal totalHoldPrice = myStocks.stream()
