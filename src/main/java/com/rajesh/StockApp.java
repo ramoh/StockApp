@@ -34,11 +34,11 @@ public class StockApp {
         stockAppFeed.update("Initializing the app", true);
 
 
-        /*finalPriceFeed.subscribeOn(Schedulers.newThread())
+        finalPriceFeed.subscribeOn(Schedulers.newThread())
                 .distinctUntilChanged()
                 .subscribe(
                         price -> stockAppFeed.updateTitle(String.format("HP : %.2f CP: %.2f", totalHoldPrice, price), price.compareTo(totalHoldPrice) > 0)
-                        , ex -> stockAppFeed.updateTitle(ex.getMessage(), false));*/
+                        , ex -> stockAppFeed.updateTitle(ex.getMessage(), false));
         infos.forEach(feed -> {
             feed.subscribeOn(Schedulers.io()).distinctUntilChanged(stockInfo -> stockInfo.currentPrice)
                     . subscribe(s ->

@@ -34,6 +34,7 @@ class StockServer {
 
             try {
                 while (!subscriber.isUnsubscribed()) {
+                    TimeUnit.SECONDS.sleep(3);
                     BigDecimal currentTotalPrice = stocks.stream()
                             .map(StockInfo::fetch)
                             .map(stockInfo -> stockInfo.currentPrice.multiply(BigDecimal.valueOf(stockInfo.quantity)))
