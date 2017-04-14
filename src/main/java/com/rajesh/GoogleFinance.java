@@ -22,7 +22,7 @@ public class GoogleFinance {
     public static BigDecimal getPrice(final String ticker, final String exchange) {
 
         try {
-            final URL url = new URL("http://finance.google.com/finance/info?client=ig&q=" + exchange + "%3A" + ticker);
+            final URL url = new URL("http://www.google.com/finance/info?q=" + exchange + ":" + ticker);
 
             final BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             String s = reader.lines().collect(Collectors.joining());
