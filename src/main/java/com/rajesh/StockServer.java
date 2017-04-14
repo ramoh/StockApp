@@ -19,6 +19,7 @@ class StockServer {
             try {
 
                 while (!subscriber.isUnsubscribed()) {
+                    TimeUnit.SECONDS.sleep(3);
                     subscriber.onNext(stock.fetch());
                 }
             } catch (Exception ex) {

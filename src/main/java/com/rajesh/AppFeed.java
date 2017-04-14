@@ -18,7 +18,7 @@ public class AppFeed extends JFrame {
     private final Style greenStyle;
 
 
-    public AppFeed(String title) throws HeadlessException, IOException {
+    AppFeed(String title) throws HeadlessException, IOException {
         JPanel middlePanel = new JPanel();
         middlePanel.setBorder(new TitledBorder(new EtchedBorder(), title));
         middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
@@ -76,7 +76,7 @@ public class AppFeed extends JFrame {
 
     }
 
-    public void update(final String textToUpdate, final boolean isGreen) {
+    synchronized void update(final String textToUpdate, final boolean isGreen) {
 
         try {
 
@@ -86,7 +86,7 @@ public class AppFeed extends JFrame {
         }
     }
 
-    public void updateTitle(final String textToUpdate, final boolean isGreen) {
+    synchronized void updateTitle(final String textToUpdate, final boolean isGreen) {
 
         try {
             this.displayDoc.remove(0, this.displayDoc.getLength());
@@ -97,7 +97,7 @@ public class AppFeed extends JFrame {
         }
     }
 
-    public void update(final String textToUpdate) {
+    synchronized void update(final String textToUpdate) {
 
         try {
             this.tickerDoc.insertString(tickerDoc.getLength(), textToUpdate, null);

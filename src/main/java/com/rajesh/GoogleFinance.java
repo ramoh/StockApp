@@ -22,8 +22,6 @@ public class GoogleFinance {
     public static BigDecimal getPrice(final String ticker, final String exchange) {
 
         try {
-             //sleep for one second before fetching
-            TimeUnit.SECONDS.sleep(1);
             final URL url = new URL("http://finance.google.com/finance/info?client=ig&q=" + exchange + "%3A" + ticker);
 
             final BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));

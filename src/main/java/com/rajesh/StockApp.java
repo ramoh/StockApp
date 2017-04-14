@@ -42,7 +42,8 @@ public class StockApp {
                         price -> stockAppFeed.updateTitle(String.format("HP : %.2f CP: %.2f", totalHoldPrice, price), price.compareTo(totalHoldPrice) > 0)
                         , ex -> stockAppFeed.updateTitle(ex.getMessage(), false));
         infos.forEach(feed -> {
-            feed.subscribeOn(Schedulers.io()).distinctUntilChanged(s -> s.currentPrice).subscribe(s ->
+            feed.subscribeOn(Schedulers.io()).distinctUntilChanged(stockInfo -> stockInfo.currentPrice)
+                    . subscribe(s ->
                             stockAppFeed.update(s.toString() + "\n", s.isProfit())
                     , ex ->
                             stockAppFeed.update(ex.getMessage() + "\n", false)

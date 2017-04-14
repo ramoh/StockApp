@@ -42,12 +42,7 @@ public class StockInfo {
     }
 
     public StockInfo fetch() {
-        try {
-            TimeUnit.SECONDS.sleep(2);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return new StockInfo(this.ticker,this.exchange, this.quantity, this.holdPrice, GoogleFinance.getPrice(this.ticker,this.exchange));
+           return new StockInfo(this.ticker,this.exchange, this.quantity, this.holdPrice, GoogleFinance.getPrice(this.ticker,this.exchange));
     }
 
     public boolean isProfit() {
