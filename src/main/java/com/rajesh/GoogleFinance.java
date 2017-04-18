@@ -18,7 +18,13 @@ import java.util.stream.Collectors;
  */
 public class GoogleFinance {
 
-
+    /**
+     * Fetches stock price in the given exchange using google finance URL
+     *
+     * @param ticker   ticker
+     * @param exchange exchange
+     * @return current stock price
+     */
     public static BigDecimal getPrice(final String ticker, final String exchange) {
 
         try {
