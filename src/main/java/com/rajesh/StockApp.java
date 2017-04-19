@@ -1,7 +1,6 @@
 package com.rajesh;
 
 import rx.Observable;
-import rx.schedulers.Schedulers;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -19,6 +18,7 @@ import java.util.stream.Stream;
 public class StockApp {
 
     public static void main(String[] args) throws Exception {
+
         List<StockInfo> myStocks = processInputFile("D:\\stock.csv");
 
         final BigDecimal totalHoldPrice = myStocks.stream()
@@ -33,20 +33,16 @@ public class StockApp {
         stockAppFeed.update("Initializing the app", true);
 
 
-        finalPriceFeed.subscribeOn(Schedulers.io())
-                .distinctUntilChanged()
+        finalPriceFeed
                 .subscribe(
                         price -> stockAppFeed.updateTitle(String.format("HP : %.2f CP: %.2f", totalHoldPrice, price), price.compareTo(totalHoldPrice) > 0)
                         , ex -> stockAppFeed.updateTitle(ex.getMessage(), false));
 
-        infos.forEach(feed -> {
-            feed.subscribeOn(Schedulers.io()).distinctUntilChanged(stockInfo -> stockInfo.currentPrice)
-                    .subscribe(s ->
-                                    stockAppFeed.update(s.toString() + "\n", s.isProfit())
-                            , ex ->
-                                    stockAppFeed.update(ex.getMessage() + "\n", false)
-                    );
-        });
+        Observable.merge(infos).subscribe(s ->
+                        stockAppFeed.update(s.toString() + "\n", s.isProfit())
+                , ex ->
+                        stockAppFeed.update(ex.getMessage() + "\n", false)
+        );
     }
 
 
